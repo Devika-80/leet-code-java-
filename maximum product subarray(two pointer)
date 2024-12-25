@@ -1,0 +1,148 @@
+Given an integer array nums, find a 
+subarray
+ that has the largest product, and return the product.
+
+The test cases are generated so that the answer will fit in a 32-bit integer.
+
+ 
+
+Example 1:
+
+Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+Example 2:
+
+Input: nums = [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+ 
+
+Constraints:
+
+1 <= nums.length <= 2 * 104
+-10 <= nums[i] <= 10
+The product of any subarray of nums is guaranteed to fit in a 32-bit integer.
+
+ program 
+class Solution {
+    public int maxProduct(int[] nums) {
+        if(nums.length==0){
+            return 0;
+        }
+        int min=nums[0];
+        int max=nums[0];
+        int result=max;
+        for(int i=1;i<nums.length;i++){
+            int cur=nums[i];
+            int temp=Math.max(cur,Math.max(max*cur,min*cur));
+            min=Math.min(cur,Math.min(min*cur,max*cur));
+            max=temp;
+            result=Math.max(result,max);
+        }
+    return result;
+    }
+}
+
+explanation:
+nums = [2, 3, -2, 4]
+Step-by-Step Execution:
+Initialization:
+java
+Copy code
+int min = nums[0];  // min = 2
+int max = nums[0];  // max = 2
+int result = max;   // result = 2
+Iteration 1 (i = 1, cur = nums[1] = 3):
+java
+Copy code
+int cur = nums[1];  // cur = 3
+
+// Calculate the new max:
+int temp = Math.max(cur, Math.max(max * cur, min * cur));
+// temp = Math.max(3, Math.max(2 * 3, 2 * 3))
+// temp = Math.max(3, Math.max(6, 6))
+// temp = 6
+
+// Calculate the new min:
+min = Math.min(cur, Math.min(min * cur, max * cur));
+// min = Math.min(3, Math.min(2 * 3, 2 * 3))
+// min = Math.min(3, Math.min(6, 6))
+// min = 3
+
+// Update max:
+max = temp;  // max = 6
+
+// Update result:
+result = Math.max(result, max);
+// result = Math.max(2, 6)
+// result = 6
+After iteration 1:
+
+min = 3
+max = 6
+result = 6
+Iteration 2 (i = 2, cur = nums[2] = -2):
+java
+Copy code
+int cur = nums[2];  // cur = -2
+
+// Calculate the new max:
+int temp = Math.max(cur, Math.max(max * cur, min * cur));
+// temp = Math.max(-2, Math.max(6 * -2, 3 * -2))
+// temp = Math.max(-2, Math.max(-12, -6))
+// temp = -2
+
+// Calculate the new min:
+min = Math.min(cur, Math.min(min * cur, max * cur));
+// min = Math.min(-2, Math.min(3 * -2, 6 * -2))
+// min = Math.min(-2, Math.min(-6, -12))
+// min = -12
+
+// Update max:
+max = temp;  // max = -2
+
+// Update result:
+result = Math.max(result, max);
+// result = Math.max(6, -2)
+// result = 6
+After iteration 2:
+
+min = -12
+max = -2
+result = 6
+Iteration 3 (i = 3, cur = nums[3] = 4):
+java
+Copy code
+int cur = nums[3];  // cur = 4
+
+// Calculate the new max:
+int temp = Math.max(cur, Math.max(max * cur, min * cur));
+// temp = Math.max(4, Math.max(-2 * 4, -12 * 4))
+// temp = Math.max(4, Math.max(-8, -48))
+// temp = 4
+
+// Calculate the new min:
+min = Math.min(cur, Math.min(min * cur, max * cur));
+// min = Math.min(4, Math.min(-12 * 4, -2 * 4))
+// min = Math.min(4, Math.min(-48, -8))
+// min = -48
+
+// Update max:
+max = temp;  // max = 4
+
+// Update result:
+result = Math.max(result, max);
+// result = Math.max(6, 4)
+// result = 6
+After iteration 3:
+
+min = -48
+max = 4
+result = 6
+Final Output:
+java
+Copy code
+return result;  // result = 6
+Explanation:
+The maximum product subarray is [2, 3], with a product of 6.
